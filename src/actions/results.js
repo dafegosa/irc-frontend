@@ -1,5 +1,5 @@
 import axios from 'axios'
-export const createUser = (email, password) => {
+export const createUser = (email, password, history) => {
   return async (dispatch) => {
     console.log('Hola', email)
     try {
@@ -12,6 +12,8 @@ export const createUser = (email, password) => {
           password,
         },
       })
+      localStorage.setItem('token', data.token)
+      history.push('/dashboard')
     } catch (err) {
       console.error('error', err)
     }

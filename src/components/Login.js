@@ -3,10 +3,11 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { validateFields } from '../utils/validations'
 import { createUser } from '../actions/results'
+import { withRouter } from 'react-router-dom'
 const ButtonContainer = styled.div`
   display: flex;
 `
-const Login = () => {
+const Login = (props) => {
   const dispatch = useDispatch()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -20,7 +21,7 @@ const Login = () => {
   const create = (email, password) => {
     try {
       console.log('ANTES ', email + password)
-      dispatch(createUser(email, password))
+      const validate = dispatch(createUser(email, password, props.history))
     } catch (err) {}
   }
   // const login = useCallback(async () => {
@@ -121,4 +122,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default withRouter(Login)
