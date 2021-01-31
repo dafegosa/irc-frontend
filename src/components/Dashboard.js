@@ -1,12 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { withRouter } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { sendMessage } from '../actions/results'
+import io from 'socket.io-client'
 
 const Dashboard = ({ history }) => {
   const dispatch = useDispatch()
   const [body, setBody] = useState('')
   const nickName = useSelector((state) => state.user.nickName)
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = io(process.env.REACT_APP_SERVER_URL)
+    ref.current.on('welcome', (data) => console.log(data))
+    ref.current.on('broadcast', (data) => console.log('broadcast', data))
+    return () => {
+      ref.current.close()
+    }
+  }, [])
+
   const validateInfo = (e) => {
     e.preventDefault()
     if (body === '') return
@@ -15,6 +26,7 @@ const Dashboard = ({ history }) => {
   const send = (nickName, body) => {
     try {
       dispatch(sendMessage(nickName, body))
+      ref.current.emit('msg', body)
     } catch (err) {}
   }
   return (
