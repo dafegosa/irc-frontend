@@ -5,18 +5,24 @@ import { sendMessage } from '../actions/results'
 import io from 'socket.io-client'
 
 const Dashboard = ({ history }) => {
+  const chatContainer = React.createRef()
   const dispatch = useDispatch()
   const [body, setBody] = useState('')
+  const [chat, setChat] = useState([])
   const nickName = useSelector((state) => state.user.nickName)
   const ref = useRef()
   useEffect(() => {
     ref.current = io(process.env.REACT_APP_SERVER_URL)
     ref.current.on('welcome', (data) => console.log(data))
-    ref.current.on('broadcast', (data) => console.log('broadcast', data))
+    ref.current.on('broadcast', (data) => {
+      // chat.push(data)
+      setChat([...chat, data])
+      console.log('el chat => ', chat)
+    })
     return () => {
       ref.current.close()
     }
-  }, [])
+  }, [chat])
 
   const validateInfo = (e) => {
     e.preventDefault()
@@ -26,8 +32,15 @@ const Dashboard = ({ history }) => {
   const send = (nickName, body) => {
     try {
       dispatch(sendMessage(nickName, body))
-      ref.current.emit('msg', body)
+      ref.current.emit('msg', `<${nickName}> ${body}`)
+      setBody('')
+      scrollToMyRef()
     } catch (err) {}
+  }
+  const scrollToMyRef = () => {
+    const scroll =
+      chatContainer.current.scrollHeight - chatContainer.current.clientHeight
+    chatContainer.current.scrollTo(0, scroll)
   }
   return (
     <form onSubmit={validateInfo}>
@@ -46,11 +59,19 @@ const Dashboard = ({ history }) => {
           class='jumbotron'
           style={{ height: '60vh', opacity: '0.9', padding: '0' }}
         >
-          <div style={{ overflowY: 'scroll', height: '90%' }}>
-            <p class='lead' style={{ height: '60%' }}>
-              This is a simple hero unit, a simple jumbotron-style component for
-              calling extra attention to featured content or information.
-            </p>
+          <div
+            ref={chatContainer}
+            style={{ overflowY: 'scroll', height: '90%' }}
+          >
+            {!!chat &&
+              chat.length > 0 &&
+              chat.map((msg, indx) => {
+                return (
+                  <p class='lead' style={{ margin: '0' }} key={indx}>
+                    {msg}
+                  </p>
+                )
+              })}
           </div>
 
           <input
