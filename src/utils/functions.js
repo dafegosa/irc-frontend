@@ -5,3 +5,15 @@ export const validateFields = (email, password, nickName, register) => {
   if (register && !nickName) return 'Olvidaste completar todos los campos'
   return ''
 }
+
+export const getDate = () => {
+  const today = new Date()
+  return (
+    today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear()
+  )
+}
+
+export const getHour = () => {
+  const today = new Date()
+  return today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+}

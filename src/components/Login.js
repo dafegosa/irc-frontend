@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { validateFields } from '../utils/validations'
+import { validateFields } from '../utils/functions'
 import { createUser, loginUser } from '../actions/results'
 import { withRouter } from 'react-router-dom'
 const ButtonContainer = styled.div`

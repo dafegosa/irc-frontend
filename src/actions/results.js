@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { SET_USER } from '../utils/constants'
+import { getDate, getHour } from '../utils/functions'
 export const setUser = (user) => ({
   type: SET_USER,
   user,
@@ -43,6 +44,28 @@ export const loginUser = (email, password, history) => {
       localStorage.setItem('token', data.token)
       dispatch(setUser(data))
       history.push('/dashboard')
+    } catch (err) {
+      console.error('error', err)
+    }
+  }
+}
+
+export const sendMessage = (nickName, body) => {
+  return async (dispatch) => {
+    console.log('Hola desde el SENDMESSAGE=> ', body)
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: 'msg/create',
+        data: {
+          nickName,
+          body,
+          date: getDate() + ' / ' + getHour(),
+        },
+      })
+      localStorage.setItem('token', data.token)
+      // dispatch(setUser(data))
     } catch (err) {
       console.error('error', err)
     }
