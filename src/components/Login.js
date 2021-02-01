@@ -43,23 +43,26 @@ const Login = (props) => {
 
   const create = (email, password, nickName) => {
     try {
-      dispatch(createUser(email, password, nickName, props.history))
-      setWarningMessage('¿Ya estas registrado?')
+      dispatch(createUser(email, password, nickName, props.history)).then(() =>
+        setWarningMessage('¿Ya estas registrado?')
+      )
     } catch (err) {}
   }
 
   const signin = (email, password) => {
     try {
-      dispatch(loginUser(email, password, props.history))
-      setWarningMessage('verifica los datos ingresados')
+      dispatch(loginUser(email, password, props.history)).then(() =>
+        setWarningMessage('verifica los datos ingresados')
+      )
     } catch (err) {}
   }
   return (
     <div className='mt-5' style={{ width: '90%' }}>
       <hr />
+
       <div className='row justify-content-end'>
         <div className='col-12 col-sm-8 col-med-6 col-xl-4'>
-          <form onSubmit={signinValidate}>
+          <form onSubmit={signinValidate} style={{ marginLeft: '10%' }}>
             {warningMessage && (
               <div class='alert alert-dismissible alert-danger'>
                 <strong>Uy!</strong> {warningMessage}

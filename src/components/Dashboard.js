@@ -109,51 +109,71 @@ const Dashboard = ({ history }) => {
   }
 
   return (
-    <form onSubmit={validateInfo} style={{ width: '90%' }}>
-      <div className='container mt-5' style={{ overflowY: 'visible' }}>
-        <Header>
-          <Button> Usuario: {nickName}</Button>
-          <Button
-            type='button'
-            onClick={() => {
-              localStorage.removeItem('token')
-              history.push('/login')
-            }}
-          >
-            Salir
-          </Button>
-        </Header>
-        <div
-          class='jumbotron'
-          style={{ height: '60vh', opacity: '0.9', padding: '0' }}
-        >
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        margin: '0',
+      }}
+    >
+      <form onSubmit={validateInfo}>
+        <div className='container mt-5' style={{ overflowY: 'visible' }}>
+          <Header>
+            <Button> Usuario: {nickName}</Button>
+            <Button
+              type='button'
+              onClick={() => {
+                localStorage.removeItem('token')
+                history.push('/login')
+              }}
+            >
+              Salir
+            </Button>
+          </Header>
           <div
-            ref={chatContainer}
-            style={{
-              overflowY: 'scroll',
-              height: '100%',
-              borderBottomLeftRadius: '0px',
-              borderBottomRightRadius: '0px',
-            }}
+            class='jumbotron'
+            style={{ height: '60vh', opacity: '0.9', padding: '0' }}
           >
-            {command
-              ? !!giphy &&
-                giphy.length > 0 &&
-                giphy.map((gif, indx) => {
+            <div
+              ref={chatContainer}
+              style={{
+                overflowY: 'scroll',
+                height: '100%',
+                borderBottomLeftRadius: '0px',
+                borderBottomRightRadius: '0px',
+              }}
+            >
+              {command
+                ? !!giphy &&
+                  giphy.length > 0 &&
+                  giphy.map((gif, indx) => {
+                    return (
+                      <div className='item' key={indx}>
+                        <img
+                          src={gif.images.downsized.url}
+                          onClick={(e) => sendGif(e)}
+                        />
+                      </div>
+                    )
+                  })
+                : !!messages &&
+                  messages.length > 0 &&
+                  messages.map((msg, indx) => {
+                    return (
+                      <p class='lead' style={{ margin: '0' }} key={msg._id}>
+                        <span style={{ fontSize: '0.6rem', color: 'orange' }}>
+                          {msg.date}
+                        </span>
+                        {`<${msg.nickName}> ${msg.body}`}
+                        <img src={msg.img} />
+                      </p>
+                    )
+                  })}
+              {!!chat &&
+                chat.length > 0 &&
+                chat.map((msg, indx) => {
                   return (
-                    <div className='item' key={indx}>
-                      <img
-                        src={gif.images.downsized.url}
-                        onClick={(e) => sendGif(e)}
-                      />
-                    </div>
-                  )
-                })
-              : !!messages &&
-                messages.length > 0 &&
-                messages.map((msg, indx) => {
-                  return (
-                    <p class='lead' style={{ margin: '0' }} key={msg._id}>
+                    <p class='lead' style={{ margin: '0' }} key={indx}>
                       <span style={{ fontSize: '0.6rem', color: 'orange' }}>
                         {msg.date}
                       </span>
@@ -162,42 +182,30 @@ const Dashboard = ({ history }) => {
                     </p>
                   )
                 })}
-            {!!chat &&
-              chat.length > 0 &&
-              chat.map((msg, indx) => {
-                return (
-                  <p class='lead' style={{ margin: '0' }} key={indx}>
-                    <span style={{ fontSize: '0.6rem', color: 'orange' }}>
-                      {msg.date}
-                    </span>
-                    {`<${msg.nickName}> ${msg.body}`}
-                    <img src={msg.img} />
-                  </p>
-                )
-              })}
+            </div>
+            <input
+              type='text'
+              placeholder='Escribe un mensaje'
+              className='form-control mt-1'
+              style={{ width: '100%', border: 'none' }}
+              onChange={(e) => setBody(e.target.value)}
+              value={body}
+            />
           </div>
-          <input
-            type='text'
-            placeholder='Escribe un mensaje'
-            className='form-control mt-1'
-            style={{ width: '100%', border: 'none' }}
-            onChange={(e) => setBody(e.target.value)}
-            value={body}
-          />
+          <p class='row justify-content-end'>
+            <button
+              type='submit'
+              class='btn btn-primary btn-lg'
+              style={{ marginRight: '2%', marginTop: '4%' }}
+              href='#'
+              role='button'
+            >
+              Enviar
+            </button>
+          </p>
         </div>
-        <p class='row justify-content-end'>
-          <button
-            type='submit'
-            class='btn btn-primary btn-lg'
-            style={{ marginRight: '2%', marginTop: '4%' }}
-            href='#'
-            role='button'
-          >
-            Enviar
-          </button>
-        </p>
-      </div>
-    </form>
+      </form>
+    </div>
   )
 }
 

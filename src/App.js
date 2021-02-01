@@ -15,18 +15,9 @@ class App extends React.Component {
     return (
       <Router>
         <Switch>
-          <div
-            className='App row justify-content-center'
-            style={{
-              width: '100%',
-              height: '100%',
-              margin: '0',
-            }}
-          >
-            <Route exact path='/login' component={Login} />
-            <PrivateRoute path='/dashboard' component={Dashboard} />
-            <Redirect to='login' />
-          </div>
+          <Route exact path='/login' component={Login} />
+          <PrivateRoute path='/dashboard' component={Dashboard} />
+          <Redirect to='login' />
         </Switch>
       </Router>
     )
