@@ -71,7 +71,6 @@ const Login = (props) => {
               placeholder='Ingrese un email'
               onChange={(e) => {
                 setEmail(e.target.value)
-                console.log(email)
                 setWarningMessage('')
               }}
               value={email}

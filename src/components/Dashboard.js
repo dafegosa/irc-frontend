@@ -45,7 +45,6 @@ const Dashboard = ({ history }) => {
     ref.current.on('welcome', (data) => console.log(data))
     ref.current.on('broadcast', (data) => {
       setChat([...chat, data])
-      console.log('el chat => ', chat)
     })
     return () => {
       ref.current.close()
@@ -56,7 +55,6 @@ const Dashboard = ({ history }) => {
     setIndex(body.indexOf('/giphy'))
     if (index !== -1) {
       setCommand(true)
-      console.log('INDEX', index + 7, search)
       setSearch(body.slice(index + 7, body.length))
       if (search.length >= 2) dispatch(toSearch(search))
     } else {
@@ -87,7 +85,6 @@ const Dashboard = ({ history }) => {
   }
 
   const sendGif = (e) => {
-    console.log(e.target.src)
     const hour = getHour()
     const data = {
       nickName,

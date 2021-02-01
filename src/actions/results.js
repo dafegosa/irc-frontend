@@ -17,7 +17,6 @@ export const setGifs = (gifs) => ({
 
 export const createUser = (email, password, nickName, history) => {
   return async (dispatch) => {
-    console.log('Hola', email)
     try {
       const { data } = await axios({
         method: 'POST',
@@ -38,7 +37,6 @@ export const createUser = (email, password, nickName, history) => {
 
 export const loginUser = (email, password, history) => {
   return async (dispatch) => {
-    console.log('Hola desde el LOGIN => ', email)
     try {
       const { data } = await axios({
         method: 'POST',
@@ -58,7 +56,6 @@ export const loginUser = (email, password, history) => {
 
 export const sendMessage = (nickName, body, img) => {
   return async (dispatch) => {
-    console.log('Hola desde el SENDMESSAGE=> ', body)
     const token = localStorage.getItem('token')
     try {
       const { data } = await axios({
@@ -75,7 +72,6 @@ export const sendMessage = (nickName, body, img) => {
           Authorization: `Bearer ${token}`,
         },
       })
-      localStorage.setItem('token', data.token)
     } catch (err) {
       console.error('error', err)
     }
@@ -95,7 +91,6 @@ export const getMessages = () => {
     })
       .then((data) => {
         dispatch(setMessages(data.data.messages))
-        console.log('la date de MSG => ', data)
       })
 
       .catch((err) => {})
@@ -105,9 +100,8 @@ export const toSearch = (search) => {
   return async (dispatch) => {
     const data = await axios({
       method: 'GET',
-      baseURL: `https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&limit=20&offset=0&q=${search}`,
+      baseURL: `https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_API_KEY}&limit=20&offset=0&q=${search}`,
     })
     dispatch(setGifs(data.data.data))
-    // console.log('LOS GIFTS -=> ', data.data.data)
   }
 }
