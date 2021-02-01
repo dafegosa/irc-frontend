@@ -36,9 +36,6 @@ const Dashboard = ({ history }) => {
   const giphy = useSelector((state) => state.gifs.gifs[0])
 
   const ref = useRef()
-  useEffect(() => {
-    dispatch(getMessages())
-  }, [])
 
   useEffect(() => {
     ref.current = io(process.env.REACT_APP_SERVER_URL)
@@ -61,6 +58,11 @@ const Dashboard = ({ history }) => {
       setCommand(false)
     }
   }, [body])
+
+  useEffect(() => {
+    dispatch(getMessages())
+    setCommand(false)
+  }, [])
 
   const validateInfo = (e) => {
     e.preventDefault()
@@ -95,6 +97,7 @@ const Dashboard = ({ history }) => {
     ref.current.emit('msg', data)
     try {
       dispatch(sendMessage(nickName, '', e.target.src))
+      setSearch('')
     } catch (error) {}
 
     setBody(body.slice(0, index))
