@@ -1,3 +1,10 @@
+IRC
+El objetivo de este proyecto es ofreer una sala de chat, en donde cualquiera que se registre, puede ver el historial de mensajes y entablar una conversación con quienes estén conectados en ese mismo instante.
+
+GIPHY API:  Al escribir /giphy SomeText, la aplicación hará una busqueda de 'SomeText' dentro de la API de Giphy y desplegará 20 reultados.
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
