@@ -13,7 +13,14 @@ function App() {
   return (
     <Router>
       <Switch>
-        <div className='App row justify-content-center'>
+        <div
+          className='App row justify-content-center'
+          style={{
+            width: '100%',
+            height: '100%',
+            margin: '0',
+          }}
+        >
           <Route exact path='/login' component={Login} />
           <PrivateRoute
             exact

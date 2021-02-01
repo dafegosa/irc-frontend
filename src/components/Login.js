@@ -44,12 +44,14 @@ const Login = (props) => {
   const create = (email, password, nickName) => {
     try {
       dispatch(createUser(email, password, nickName, props.history))
+      setWarningMessage('¿Ya estas registrado?')
     } catch (err) {}
   }
 
   const signin = (email, password) => {
     try {
       dispatch(loginUser(email, password, props.history))
+      setWarningMessage('verifica los datos ingresados')
     } catch (err) {}
   }
   return (
